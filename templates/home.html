@@ -1,0 +1,96 @@
+{% extends 'main.html' %}
+{% block content %}
+
+
+
+{% if request.user.is_authenticated %}
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col col-lg-2">
+<div class="card">
+  <div class="card-header">
+    Browse
+  </div>
+  <div class="card-body">
+    <p class="card-title"> <a href = "{% url 'home' %}" class = "list-group-item list-group-item-action active text-center">All</a></p>
+    <br>
+    {% for t in topic %}
+    <p class="nav-text"><a class = "list-group-item list-group-item-action text-center" href = "{% url 'home' %}?q={{t.name}}">{{t.name}}</a></p>
+    {% endfor %}
+  </div>
+</div>
+    </div>
+    <div class="col ">
+      <form class="d-flex" method = "GET" action = "{% url 'home' %}">
+        <input class="form-control me-2" type="text" name = "q" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+
+      <br>
+
+<div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="true" href="/">Main page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="\add">Issue book</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="\addBook">Add book</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="\addTopic">Add Topic</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="\addParticipant">Add participant</a>
+      </li>
+
+    </ul>
+
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Hey, {{user}}</h5>
+    <p class="card-text">To get started with our webapp, you can start adding books or click on the button below to know more.</p>
+    <a href="#" class="btn btn-primary">Know more</a>
+  </div>
+
+</div>
+      {% if room_count > 0 %}
+<small><b>Total {{room_count}} books available</b></small>
+      {% else %}
+      <small><b>ooppsssieee no books available</b></small>
+      {% endif %}
+      {% for bookk in books %}
+      <div class="card my-4">
+  <div class="card-body">
+
+    <h5 class="card-title">{{bookk.book}}</h5>
+    <p class="card-text">{{bookk.book.desc}} ({{bookk.book.topic}})</p>
+      <hr>
+      <p class="card-text">Issued on: {{bookk.created}} for <b>{{bookk.participant}}</b></p>
+    {% if request.user == bookk.host %}
+    <a href="delete/{{bookk.id}}" class="btn btn-primary">Remove book</a>
+    <a href ="update/{{bookk.id}}" class="btn btn-primary">Edit book</a>
+      {% endif %}
+    </div>
+  </div>
+      {% endfor%}
+
+    </div>
+{% else %}
+<div class = 'container my-4'>
+  <div class="jumbotron">
+  <h1 class="display-4">Hello there!</h1>
+  <p class="lead">This webapp will help you out by providing with a reliable Database to store data related books and their holders of a Library.</p>
+  <hr class="my-4">
+  <p>You will have to register or sign up in order to use this webapp.</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Click here to get started</a>
+  </p>
+</div>
+</div>
+{% endif %}
+{% endblock content %}

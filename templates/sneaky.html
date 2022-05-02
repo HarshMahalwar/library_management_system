@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class = 'container my-4'>
+  <div class="jumbotron">
+  <h1 class="display-4">Hey you, yes you!</h1>
+  <p class="lead">You can NOT change or delete the courses allotted to other users, It's rude!! </p>
+  <hr class="my-4">
+  <p>You have been caught being extra sneaky! Now go back to your HOME page!</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="{% url 'home' %}" role="button">Click here to go back</a>
+  </p>
+</div>
+</div>
+{% endblock %}

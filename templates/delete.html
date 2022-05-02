@@ -1,0 +1,15 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class = "container my-4">
+    <form method="post" action = "#">
+    {% csrf_token %}
+    <p>Are you sure you want to remove "{{book.title}}" from the list?</p>
+    <a href = "/" class = "btn btn-primary">Go back</a>
+    <input type="submit" class = "btn btn-primary" value = "confirm"/>
+</form>
+</div>
+
+{% endblock content %}
+
