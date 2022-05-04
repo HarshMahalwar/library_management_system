@@ -66,8 +66,8 @@
       {% for bookk in books %}
       <div class="card my-4">
   <div class="card-body">
-
-    <h5 class="card-title">{{bookk.book}}</h5>
+      
+    <h5 class="card-title">{{bookk.book.title}}</h5>
     <p class="card-text">{{bookk.book.desc}} ({{bookk.book.topic}})</p>
       <hr>
       <p class="card-text">Issued on: {{bookk.created}} for <b>{{bookk.participant}}</b></p>

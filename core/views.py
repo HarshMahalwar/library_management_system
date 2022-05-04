@@ -60,14 +60,14 @@ def registerUser(request):
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    t = book.objects.filter(Q(topic__name__icontains=q) |
-                              Q(title__icontains=q) |
-                              Q(desc__icontains=q)
+    t = Issue.objects.filter(Q(book__topic__name__icontains=q) |
+                              Q(book__title__icontains=q) |
+                              Q(book__desc__icontains=q) |
+                            Q(participant__name__icontains=q)
                               )
-    issue = Issue.objects.all();
     room_count = t.count()
     t1 = Topic.objects.all()
-    context = {'books': issue, 'topic': t1, 'room_count': room_count}
+    context = {'books': t , 'topic': t1, 'room_count': room_count}
     return render(request, 'home.html', context)
 
 
@@ -124,7 +124,7 @@ def add_participant(request):
 
 
 def deleteBook(request, pk):
-    r = book.objects.get(id=pk)
+    r = Issue.objects.get(id=pk)
     if request.user != r.host:
         return render(request,"sneaky.html")
     if request.method == 'POST':
@@ -146,12 +146,12 @@ def github(request):
 
 
 def updateBook(request, pk):
-    r = book.objects.get(id=pk)
-    fr = bookForm(instance=r)
+    r = Issue.objects.get(id=pk)
+    fr = IssuerForm(instance=r)
     if request.user != r.host:
         return render(request, "sneaky.html")
     if request.method == 'POST':
-        fr = bookForm(request.POST, instance=r)
+        fr = IssuerForm(request.POST, instance=r)
         if fr.is_valid():
             fr.save()
             return redirect('/')
